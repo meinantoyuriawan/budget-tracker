@@ -12,16 +12,16 @@ public class WebServicesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebServicesApplication.class, args);
 	}
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedMethods("*")
-						.allowedOrigins("http://localhost:3000");
-//				WebMvcConfigurer.super.addCorsMappings(registry);
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**")
+//						.allowedMethods("*")
+//						.allowedOrigins("http://localhost:3000");
+////				WebMvcConfigurer.super.addCorsMappings(registry);
+//			}
+//		};
+//	}
 }
