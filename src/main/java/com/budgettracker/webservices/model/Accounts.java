@@ -3,6 +3,8 @@ package com.budgettracker.webservices.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
+
 @Entity
 @Table (name = "accounts")
 public class Accounts {
@@ -21,7 +23,9 @@ public class Accounts {
     private String accountType;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private users users;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Users users;
 
+    @OneToMany(mappedBy = "accounts")
+    private List<Expenses> expenses;
 }

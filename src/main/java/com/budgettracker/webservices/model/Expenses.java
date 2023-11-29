@@ -1,2 +1,50 @@
-package com.budgettracker.webservices.model;public class Expenses {
+package com.budgettracker.webservices.model;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Table(name = "expenses")
+public class Expenses {
+
+//    id VARCHAR(255) NOT NULL,
+//    user_id VARCHAR(255) NOT NULL,
+//    expenses_date DATE NOT NULL,
+//    account_id VARCHAR(255) NOT NULL,
+//    amount BIGINT NOT NULL,
+//    type VARCHAR(50) NOT NULL,
+//    description VARCHAR(200) NOT NULL,
+//    PRIMARY KEY (id),
+//    FOREIGN KEY (account_id) REFERENCES accounts(id)
+
+    @Id
+    @UuidGenerator
+    private String id;
+
+    @Column(name = "user_id")
+    private String userId;
+
+    @Column(name = "expenses_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
+
+    @Column(name = "amount")
+    private Long amount;
+
+    @Column(name = "type")
+    private String expensesType;
+
+    @Column(name = "description")
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Accounts accounts;
+
+    @OneToMany(mappedBy = "expenses")
+    private List<Schedule> schedule;
 }
