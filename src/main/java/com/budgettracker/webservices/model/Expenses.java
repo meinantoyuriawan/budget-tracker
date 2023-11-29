@@ -47,4 +47,79 @@ public class Expenses {
 
     @OneToMany(mappedBy = "expenses")
     private List<Schedule> schedule;
+
+    public Expenses(String id, String userId, Date date, Long amount, String expensesType, String description, Accounts accounts, List<Schedule> schedule) {
+        this.id = id;
+        this.userId = userId;
+        this.date = date;
+        this.amount = amount;
+        this.expensesType = expensesType;
+        this.description = description;
+        this.accounts = accounts;
+        this.schedule = schedule;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public String getExpensesType() {
+        return expensesType;
+    }
+
+    public void setExpensesType(String expensesType) {
+        this.expensesType = expensesType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Accounts getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Accounts accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<Schedule> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(List<Schedule> schedule) {
+        this.schedule = schedule;
+    }
 }

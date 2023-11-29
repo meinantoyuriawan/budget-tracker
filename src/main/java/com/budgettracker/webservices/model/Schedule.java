@@ -30,4 +30,61 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name = "expenses_id", referencedColumnName = "id")
     private Accounts accounts;
+
+    public Schedule(String id, String userId, Date startDate, Date endDate, String byTime, Accounts accounts) {
+        this.id = id;
+        this.userId = userId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.byTime = byTime;
+        this.accounts = accounts;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getByTime() {
+        return byTime;
+    }
+
+    public void setByTime(String byTime) {
+        this.byTime = byTime;
+    }
+
+    public Accounts getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Accounts accounts) {
+        this.accounts = accounts;
+    }
 }
