@@ -9,7 +9,7 @@ CREATE TABLE users
     password VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE accounts
 (
@@ -19,7 +19,7 @@ CREATE TABLE accounts
     account_type VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id)
-)
+);
 
 CREATE TABLE expenses
 (
@@ -32,7 +32,7 @@ CREATE TABLE expenses
     description VARCHAR(200) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
-)
+);
 
 CREATE TABLE schedule
 (
@@ -44,7 +44,7 @@ CREATE TABLE schedule
     by_time VARCHAR(10) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY fk_exp_id (expenses_id) REFERENCES expenses (id)
-)
+);
 
 CREATE TABLE goal
 (
@@ -55,4 +55,4 @@ CREATE TABLE goal
     amount BIGINT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY fk_user_id (user_id) REFERENCES users (id)
-)
+);
