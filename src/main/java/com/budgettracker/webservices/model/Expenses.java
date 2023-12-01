@@ -22,7 +22,7 @@ public class Expenses {
 //    FOREIGN KEY (account_id) REFERENCES accounts(id)
 
     @Id
-    @UuidGenerator
+//    @UuidGenerator
     private String id;
 
     @Column(name = "user_id")
@@ -48,16 +48,19 @@ public class Expenses {
     @OneToMany(mappedBy = "expenses")
     private List<Schedule> schedule;
 
-    public Expenses(String id, String userId, Date date, Long amount, String expensesType, String description, Accounts accounts, List<Schedule> schedule) {
-        this.id = id;
-        this.userId = userId;
-        this.date = date;
-        this.amount = amount;
-        this.expensesType = expensesType;
-        this.description = description;
-        this.accounts = accounts;
-        this.schedule = schedule;
+    public Expenses(){
+
     }
+//    public Expenses(String id, String userId, Date date, Long amount, String expensesType, String description, Accounts accounts, List<Schedule> schedule) {
+//        this.id = id;
+//        this.userId = userId;
+//        this.date = date;
+//        this.amount = amount;
+//        this.expensesType = expensesType;
+//        this.description = description;
+//        this.accounts = accounts;
+//        this.schedule = schedule;
+//    }
 
     public String getId() {
         return id;

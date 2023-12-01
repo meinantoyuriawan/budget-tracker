@@ -7,7 +7,7 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "goal")
 public class Goal {
     @Id
-    @UuidGenerator
+//    @UuidGenerator
     private String id;
 
     @Column(name = "by_time")
@@ -23,13 +23,16 @@ public class Goal {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users users;
 
-    public Goal(String id, String byTime, String byAccount, Long amount, Users users) {
-        this.id = id;
-        this.byTime = byTime;
-        this.byAccount = byAccount;
-        this.amount = amount;
-        this.users = users;
+    public Goal(){
+
     }
+//    public Goal(String id, String byTime, String byAccount, Long amount, Users users) {
+//        this.id = id;
+//        this.byTime = byTime;
+//        this.byAccount = byAccount;
+//        this.amount = amount;
+//        this.users = users;
+//    }
 
     public String getId() {
         return id;

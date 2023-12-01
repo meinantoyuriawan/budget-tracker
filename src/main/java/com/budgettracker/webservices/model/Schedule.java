@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name = "schedule")
 public class Schedule {
     @Id
-    @UuidGenerator
+//    @UuidGenerator
     private String id;
 
     @Column(name = "user_id")
@@ -31,14 +31,17 @@ public class Schedule {
     @JoinColumn(name = "expenses_id", referencedColumnName = "id")
     private Accounts accounts;
 
-    public Schedule(String id, String userId, Date startDate, Date endDate, String byTime, Accounts accounts) {
-        this.id = id;
-        this.userId = userId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.byTime = byTime;
-        this.accounts = accounts;
+    public Schedule(){
+
     }
+//    public Schedule(String id, String userId, Date startDate, Date endDate, String byTime, Accounts accounts) {
+//        this.id = id;
+//        this.userId = userId;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.byTime = byTime;
+//        this.accounts = accounts;
+//    }
 
     public String getId() {
         return id;

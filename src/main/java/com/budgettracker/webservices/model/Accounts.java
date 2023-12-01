@@ -10,7 +10,7 @@ import java.util.List;
 public class Accounts {
 
     @Id
-    @UuidGenerator
+//    @UuidGenerator
     private String id;
 
 //    @Column(name = "user_id")
@@ -29,13 +29,16 @@ public class Accounts {
     @OneToMany(mappedBy = "accounts")
     private List<Expenses> expenses;
 
-    public Accounts(String id, String accountName, String accountType, Users users, List<Expenses> expenses) {
-        this.id = id;
-        this.accountName = accountName;
-        this.accountType = accountType;
-        this.users = users;
-        this.expenses = expenses;
+    public Accounts(){
+
     }
+//    public Accounts(String id, String accountName, String accountType, Users users, List<Expenses> expenses) {
+//        this.id = id;
+//        this.accountName = accountName;
+//        this.accountType = accountType;
+//        this.users = users;
+//        this.expenses = expenses;
+//    }
 
     public String getId() {
         return id;

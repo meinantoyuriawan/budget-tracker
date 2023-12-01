@@ -13,7 +13,7 @@ public class Users {
 //    password VARCHAR(100) NOT NULL,
 //    name VARCHAR(100) NOT NULL,
     @Id
-    @UuidGenerator
+//    @UuidGenerator
     private String id;
 
     @Column(name = "username")
@@ -31,14 +31,17 @@ public class Users {
     @OneToMany(mappedBy = "user")
     private List<Goal> goal;
 
-    public Users(String id, String username, String password, String name, List<Accounts> accounts, List<Goal> goal) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.accounts = accounts;
-        this.goal = goal;
+    public Users() {
+
     }
+//    public Users(String id, String username, String password, String name, List<Accounts> accounts, List<Goal> goal) {
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.name = name;
+//        this.accounts = accounts;
+//        this.goal = goal;
+//    }
 
     public String getId() {
         return id;
