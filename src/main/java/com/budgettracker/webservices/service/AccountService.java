@@ -1,13 +1,17 @@
 package com.budgettracker.webservices.service;
 
+import com.budgettracker.webservices.model.AccountResponse;
 import com.budgettracker.webservices.model.Accounts;
 import com.budgettracker.webservices.repository.AccountRepo;
 import com.budgettracker.webservices.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -18,7 +22,15 @@ public class AccountService {
     @Autowired
     UserRepo userRepo;
 
-    //isUser
+    // Account Response
+    private AccountResponse toAccResponse(Accounts accounts) {
+        AccountResponse newAccResp = new AccountResponse();
+        newAccResp.setId(accounts.getId());
+        newAccResp.setName(accounts.getAccountName());
+        newAccResp.setType(accounts.getAccountType());
+        return newAccResp;
+    }
+    // next create endpoint(?) for each service
 
     boolean isUser(String userId){
 //        boolean exists = userRepo.existsById(userId);
@@ -28,28 +40,43 @@ public class AccountService {
     }
 
     //Get All Account
-    public List<Accounts> getAllAccount(String userId){
+    public List<AccountResponse> getAll(String userId) {
         boolean isExist = isUser(userId);
-
-        ArrayList<Accounts> accountsList = new ArrayList<>();
-        if (isExist){
-            accountRepo.findByUserId(userId).forEach(account -> accountsList.add(account));
+        if (!isExist) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"user doesn't exist");
         }
-        // else {error handling}
-        // accountRepo.findAll().forEach(account -> accountsList.add(account));
 
-        return accountsList;
+        List<Accounts> accountsList = accountRepo.findByUserId(userId);
+        if (accountsList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no Account yet");
+        }
+        return accountsList.stream().map(this::toAccResponse).toList();
     }
 
     //Add Account
-    public Accounts addAccount(Accounts account){
+    public AccountResponse add(Accounts account){
         boolean isExist = isUser(account.getUsers().getId());
-        if (isExist){
-            accountRepo.save(account);
+        if (!isExist) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"user doesn't exist");
         }
-        return account;
+        Accounts newAcc = new Accounts();
+//                UUID.randomUUID().toString(),
+//                account.getAccountName(),
+//                account.getAccountType(),
+//                account.getUsers(),
+//                account.getExpenses()
+//        );
+        newAcc.setId(UUID.randomUUID().toString());
+        newAcc.setAccountName(account.getAccountName());
+        newAcc.setAccountType(account.getAccountType());
+        newAcc.setUsers(account.getUsers());
+        newAcc.setExpenses(account.getExpenses());
 
+        accountRepo.save(newAcc);
+
+        return toAccResponse(account);
     }
+
     //Update Account
 
         //get item by id
@@ -61,22 +88,25 @@ public class AccountService {
         return accountRepo.findById(accId).get();
     }
 
-    public Accounts updateAcoount(Accounts account){
-//        boolean isExist = isUser(account.getUsers().getId());
+    public AccountResponse update(Accounts account){
         boolean isExist = isAcc(account.getId());
-        if (isExist) {
-            Accounts newAcc = getAccById(account.getId());
-            newAcc.setAccountName(account.getAccountName());
-            newAcc.setAccountType(account.getAccountType());
+        if (!isExist) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"account doesn't exist");
         }
-        return account;
-    }
-    //Delete Account
+        Accounts newAcc = getAccById(account.getId());
+        newAcc.setAccountName(account.getAccountName());
+        newAcc.setAccountType(account.getAccountType());
+        accountRepo.save(newAcc);
 
-    public void deleteAccount(String accId){
+        return toAccResponse(newAcc);
+    }
+
+    //Delete Account
+    public void remove(String accId){
         boolean isExist = isAcc(accId);
-        if (isExist) {
-            accountRepo.deleteById(accId);
+        if (!isExist) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"account doesn't exist");
         }
+        accountRepo.deleteById(accId);
     }
 }
