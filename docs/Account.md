@@ -63,9 +63,9 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-      "account_id": "4",
-      "account_name": "New account",
-      "account_type": "Debit"
+      "id": "4",
+      "name": "New account",
+      "type": "Debit"
     }
 }
 ```
@@ -100,9 +100,9 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-      "account_id": "4",
-      "account_name": "Updated Name",
-      "account_type": "Debit"
+      "id": "4",
+      "name": "Updated Name",
+      "type": "Debit"
     }
 }
 ```
@@ -128,9 +128,9 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-      "account_id": "4",
-      "account_name": "Updated Name",
-      "account_type": "Debit"
+      "id": "4",
+      "name": "Updated Name",
+      "type": "Debit"
     }
 }
 ```
