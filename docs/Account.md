@@ -14,19 +14,19 @@ Response Body (Success) :
 {
   "data" : [
     {
-      "account_id": "1",
-      "account_name": "Bank XYZ",
-      "account_type": "Debit"
+      "id": "1",
+      "name": "Bank XYZ",
+      "type": "Debit"
     },
     {
-      "account_id": "2",
-      "account_name": "Bank ABC",
-      "account_type": "Credit"
+      "id": "2",
+      "name": "Bank ABC",
+      "type": "Credit"
     },
     {
-      "account_id": "3",
-      "account_name": "Wallet",
-      "account_type": "Cash"
+      "id": "3",
+      "name": "Wallet",
+      "type": "Cash"
     },
     ...
   ]
