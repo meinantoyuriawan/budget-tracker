@@ -127,11 +127,7 @@ Response Body (Success) :
 
 ```json
 {
-  "data" : {
-      "id": "someid",
-      "name": "Updated Name",
-      "type": "Debit"
-    }
+  "data": "ok"
 }
 ```
 
