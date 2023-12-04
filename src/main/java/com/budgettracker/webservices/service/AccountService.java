@@ -48,6 +48,11 @@ public class AccountService {
         Users users = userRepo.findById(request.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));
         // add logic isDuplicate
+
+        boolean isDup = accountRepo.existByName(request.getName());
+        if (isDup) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account name already exists");
+        }
         Accounts newAcc = new Accounts();
 
         newAcc.setId(UUID.randomUUID().toString());
