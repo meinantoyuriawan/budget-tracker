@@ -1,6 +1,6 @@
 package com.budgettracker.webservices.model;
 
-public class AccountRequest {
+public class GetAddAccountRequest {
     private String userId;
     private String name;
     private String type;

@@ -14,17 +14,17 @@ Response Body (Success) :
 {
   "data" : [
     {
-      "id": "1",
+      "id": "someid",
       "name": "Bank XYZ",
       "type": "Debit"
     },
     {
-      "id": "2",
+      "id": "someid",
       "name": "Bank ABC",
       "type": "Credit"
     },
     {
-      "id": "3",
+      "id": "someid",
       "name": "Wallet",
       "type": "Cash"
     },
@@ -37,7 +37,7 @@ Response Body (Failed) :
 
 ```json
 {
-  "errors" : "Accounts not found"
+  "errors" : "No Account yet"
 }
 ```
 
@@ -53,8 +53,8 @@ Request Body :
 
 ```json
 {
-  "account_name" : "New account",
-  "account_type" : "Debit"
+  "name" : "New account",
+  "type" : "Debit"
 }
 ```
 
@@ -63,7 +63,7 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-      "id": "4",
+      "id": "someid",
       "name": "New account",
       "type": "Debit"
     }
@@ -74,13 +74,13 @@ Response Body (Failed) :
 
 ```json
 {
-  "errors" : "User not found"
+  "errors" : "User doesn't exist"
 }
 ```
 
 ## Update Account
 
-Endpoint : POST /api/account/{accountId}/update
+Endpoint : POST /api/accounts/{userId}/update/{accountId}
 
 Request Header :
 
@@ -90,8 +90,8 @@ Request Body :
 
 ```json
 {
-  "account_name" : "Updated Name",
-  "account_type" : "Debit"
+  "name" : "Updated Name",
+  "type" : "Debit"
 }
 ```
 
@@ -100,7 +100,7 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-      "id": "4",
+      "id": "someid",
       "name": "Updated Name",
       "type": "Debit"
     }
@@ -111,13 +111,13 @@ Response Body (Failed) :
 
 ```json
 {
-  "errors" : "User not found"
+  "errors" : "User doesn't exist"
 }
 ```
 
 ## Delete Account
 
-Endpoint : POST /api/account/{accountId}/delete
+Endpoint : POST /api/accounts/{userId}/delete/{accountId}
 
 Request Header :
 
@@ -128,7 +128,7 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-      "id": "4",
+      "id": "someid",
       "name": "Updated Name",
       "type": "Debit"
     }
@@ -139,6 +139,6 @@ Response Body (Failed) :
 
 ```json
 {
-  "errors" : "User not found"
+  "errors" : "User doesn't exist"
 }
 ```
