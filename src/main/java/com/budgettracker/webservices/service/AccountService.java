@@ -35,7 +35,7 @@ public class AccountService {
         Users users = userRepo.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));
 
-        List<Accounts> accountsList = accountRepo.findAll(users);
+        List<Accounts> accountsList = accountRepo.findByusers(users);
         if (accountsList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Account yet");
         }
@@ -49,7 +49,7 @@ public class AccountService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));
         // add logic isDuplicate
 
-        boolean isDup = accountRepo.existByName(request.getName());
+        boolean isDup = accountRepo.existsByaccountName(request.getName());
         if (isDup) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account name already exists");
         }
