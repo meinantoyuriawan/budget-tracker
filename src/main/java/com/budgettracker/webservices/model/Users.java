@@ -25,10 +25,10 @@ public class Users {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "users")
     private List<Accounts> accounts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "users")
     private List<Goal> goal;
 
     public Users() {

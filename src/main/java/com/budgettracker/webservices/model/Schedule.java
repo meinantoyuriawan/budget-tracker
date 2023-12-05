@@ -27,9 +27,9 @@ public class Schedule {
     @Column(name = "by_time")
     private String byTime;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "expenses_id", referencedColumnName = "id")
-    private Accounts accounts;
+    private Expenses expenses;
 
     public Schedule(){
 
@@ -83,11 +83,11 @@ public class Schedule {
         this.byTime = byTime;
     }
 
-    public Accounts getAccounts() {
-        return accounts;
+    public Expenses getExpenses() {
+        return expenses;
     }
 
-    public void setAccounts(Accounts accounts) {
-        this.accounts = accounts;
+    public void setExpenses(Expenses expenses) {
+        this.expenses = expenses;
     }
 }

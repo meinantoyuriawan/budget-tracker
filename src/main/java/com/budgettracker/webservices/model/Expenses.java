@@ -45,8 +45,8 @@ public class Expenses {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Accounts accounts;
 
-    @OneToMany(mappedBy = "expenses")
-    private List<Schedule> schedule;
+    @OneToOne(mappedBy = "expenses")
+    private Schedule schedule;
 
     public Expenses(){
 
@@ -118,11 +118,11 @@ public class Expenses {
         this.accounts = accounts;
     }
 
-    public List<Schedule> getSchedule() {
+    public Schedule getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(List<Schedule> schedule) {
+    public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
 }
