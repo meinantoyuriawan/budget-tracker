@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepo extends JpaRepository<Accounts, String> {
-    List<Accounts> findAll(Users users);
+    List<Accounts> findByusers(Users users);
 
-    boolean existByName(String accountName);
+    boolean existsByaccountName(String accountName);
 }
