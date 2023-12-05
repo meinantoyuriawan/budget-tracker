@@ -212,6 +212,130 @@ class AccountControllerTest {
                 }
         );
     }
+
     // test Put
+    @Test
+    void testEditAcc() throws  Exception {
+        // push new data
+        String id = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
+        Users user = userRepo.findById(id).orElseThrow();
+        Accounts newAcc = new Accounts();
+        newAcc.setId("test");
+        newAcc.setAccountName("nama");
+        newAcc.setAccountType("tipe");
+        newAcc.setUsers(user);
+        accountRepo.save(newAcc);
+
+        // edit
+        UpdateAccountRequest request = new UpdateAccountRequest();
+        request.setName("updated name");
+        request.setType("updated type");
+        mockMvc.perform(
+                put("/api/accounts/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/test")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(
+                result -> {
+                    WebResponse<AccountResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    });
+                    assertNull(response.getError());
+                    assertEquals("test", response.getData().getId());
+                    assertEquals(request.getName(), response.getData().getName());
+                    assertEquals(request.getType(), response.getData().getType());
+
+                    assertTrue(accountRepo.existsById(response.getData().getId()));
+                }
+        );
+    }
+
+    @Test
+    void testEditAccNotExist() throws  Exception {
+        // push new data
+        String id = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
+        Users user = userRepo.findById(id).orElseThrow();
+        Accounts newAcc = new Accounts();
+        newAcc.setId("test");
+        newAcc.setAccountName("nama");
+        newAcc.setAccountType("tipe");
+        newAcc.setUsers(user);
+        accountRepo.save(newAcc);
+
+        // edit
+        UpdateAccountRequest request = new UpdateAccountRequest();
+        request.setName("updated name");
+        request.setType("updated type");
+        mockMvc.perform(
+                put("/api/accounts/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/differentAcc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isNotFound()
+        ).andDo(
+                result -> {
+                    WebResponse<AccountResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    });
+                    assertNotNull(response.getError());
+                }
+        );
+    }
+
     // test Delete
+    @Test
+    void testDeleteAcc() throws Exception {
+        // push new data
+        String id = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
+        Users user = userRepo.findById(id).orElseThrow();
+        Accounts newAcc = new Accounts();
+        newAcc.setId("test");
+        newAcc.setAccountName("nama");
+        newAcc.setAccountType("tipe");
+        newAcc.setUsers(user);
+        accountRepo.save(newAcc);
+        mockMvc.perform(
+                delete("/api/accounts/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/delete/test")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(
+                result -> {
+                    WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    });
+                    assertNull(response.getError());
+                    assertEquals("Ok", response.getData());
+
+                    assertFalse(accountRepo.existsById("test"));
+                }
+        );
+    }
+
+    @Test
+    void testDeleteAccNotExist() throws Exception {
+        // push new data
+        String id = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
+        Users user = userRepo.findById(id).orElseThrow();
+        Accounts newAcc = new Accounts();
+        newAcc.setId("test");
+        newAcc.setAccountName("nama");
+        newAcc.setAccountType("tipe");
+        newAcc.setUsers(user);
+        accountRepo.save(newAcc);
+        mockMvc.perform(
+                delete("/api/accounts/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/delete/differentAcc")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpectAll(
+                status().isNotFound()
+        ).andDo(
+                result -> {
+                    WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    });
+                    assertNotNull(response.getError());
+                }
+        );
+    }
 }

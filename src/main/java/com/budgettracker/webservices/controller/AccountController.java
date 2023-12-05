@@ -63,7 +63,7 @@ public class AccountController {
     }
 
     @DeleteMapping(
-            path = "api/accounts/{userId}/update/{accountId}",
+            path = "api/accounts/{userId}/delete/{accountId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
