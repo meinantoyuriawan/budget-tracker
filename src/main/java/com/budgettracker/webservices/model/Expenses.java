@@ -2,8 +2,10 @@ package com.budgettracker.webservices.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -29,8 +31,9 @@ public class Expenses {
     private String userId;
 
     @Column(name = "expenses_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date date;
+    private LocalDate date;
 
     @Column(name = "amount")
     private Long amount;
@@ -78,11 +81,11 @@ public class Expenses {
         this.userId = userId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
