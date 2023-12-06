@@ -50,9 +50,9 @@ Response Body (Failed) :
 }
 ```
 
-### Filtered by date
+### Grouped by date
 
-Endpoint : GET /api/expenses/{userId}/date/{timeVariable}
+Endpoint : GET /api/expenses/{userId}/date/{timeVariable}/
 
 timeVariable : year, month, week, day
 
@@ -67,7 +67,7 @@ Response Body (Success) :
   "data" : [
     {
       "id": "someid",
-      "date": "This month",
+      "date": "expensesDatebyMonth",
       "account": "accountId1",
       "amount": 20000,
       "type": "Food",
@@ -75,7 +75,7 @@ Response Body (Success) :
     },
     {
       "id": "someid",
-      "date": "This month",
+      "date": "expensesDatebyMonth",
       "account": "accountId2",
       "amount": 200000,
       "type": "Housing",
@@ -83,7 +83,7 @@ Response Body (Success) :
     },
     {
       "id": "someid",
-      "date": "This month",
+      "date": "expensesDatebyMonth",
       "account": "accountId3",
       "amount": 50000,
       "type": "Medical & Healthcare",
@@ -164,7 +164,7 @@ Request Body :
 
 ```json
 {
-  "date": "expensesDate",
+  "date": "dd/mm/yyyy",
   "account": "accountId",
   "amount": 20000,
   "type": "Urgent",
@@ -177,7 +177,7 @@ Response Body (Success) :
 ```json
 {
   "data" : {
-        "id": "someid",
+        "id": "expensesId",
         "date": "expensesDate",
         "account": "accountId",
         "amount": 20000,
@@ -207,7 +207,7 @@ Request Body :
 
 ```json
 {
-  "date": "newExpensesDate",
+  "date": "dd/mm/yyyy",
   "account": "accountId",
   "amount": 33000,
   "type": "newType",
@@ -222,7 +222,7 @@ Response Body (Success) :
   "data" : {
     "id": "expensesId",
     "date": "newExpensesDate",
-    "account": "accountId",
+    "account": "newAccountId",
     "amount": 33000,
     "type": "newType",
     "description": "New description"
