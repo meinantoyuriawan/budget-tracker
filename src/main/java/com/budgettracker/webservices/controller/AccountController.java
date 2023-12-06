@@ -1,7 +1,7 @@
 package com.budgettracker.webservices.controller;
 
 import com.budgettracker.webservices.model.AccountResponse;
-import com.budgettracker.webservices.model.GetAddAccountRequest;
+import com.budgettracker.webservices.model.AddAccountRequest;
 import com.budgettracker.webservices.model.UpdateAccountRequest;
 import com.budgettracker.webservices.model.WebResponse;
 import com.budgettracker.webservices.service.AccountService;
@@ -33,7 +33,7 @@ public class AccountController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public WebResponse<AccountResponse> add(
-            @RequestBody GetAddAccountRequest request,
+            @RequestBody AddAccountRequest request,
             @PathVariable("userId") String userId
     ) {
         request.setUserId(userId);

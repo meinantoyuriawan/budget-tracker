@@ -43,7 +43,7 @@ public class AccountService {
     }
 
     //Add Account
-    public AccountResponse add(GetAddAccountRequest request){
+    public AccountResponse add(AddAccountRequest request){
 
         Users users = userRepo.findById(request.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));

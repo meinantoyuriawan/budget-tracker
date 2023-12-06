@@ -1,6 +1,5 @@
 package com.budgettracker.webservices.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.budgettracker.webservices.model.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,13 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 //import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.*;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.MockMvcBuilder.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,7 +44,7 @@ class AccountControllerTest {
     @Test
     // push to acc db
     void testPushAccSuccess() throws Exception {
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         request.setName("New account");
         request.setType("Debit");
         // userId = be3ca79c-44f5-4b90-ae62-aa38800ac4c5
@@ -74,7 +70,7 @@ class AccountControllerTest {
     @Test
     void testPushAccUserNotExist() throws Exception {
         // User doesn't exist
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         request.setName("New account");
         request.setType("Debit");
         // userId = be3ca79c-44f5-4b90-ae62-aa38800ac4c5
@@ -97,7 +93,7 @@ class AccountControllerTest {
     void testPushAccExist() throws Exception {
         // Account Name already exist
         testPushAccSuccess();
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         request.setName("New account");
         request.setType("Debit");
         // userId = be3ca79c-44f5-4b90-ae62-aa38800ac4c5
@@ -120,7 +116,7 @@ class AccountControllerTest {
 
 //    @Test
     void testPushAccBadReq() throws  Exception {
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         request.setName("");
         request.setType("");
         // userId = be3ca79c-44f5-4b90-ae62-aa38800ac4c5
@@ -157,7 +153,7 @@ class AccountControllerTest {
             accountRepo.save(newAcc);
         }
         // get 3 acc
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         mockMvc.perform(
                 get("/api/accounts/be3ca79c-44f5-4b90-ae62-aa38800ac4c5")
                         .accept(MediaType.APPLICATION_JSON)
@@ -177,7 +173,7 @@ class AccountControllerTest {
 
     @Test
     void testGetAllUserNotExist() throws Exception {
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         mockMvc.perform(
                 get("/api/accounts/random-userid")
                         .accept(MediaType.APPLICATION_JSON)
@@ -196,7 +192,7 @@ class AccountControllerTest {
 
     @Test
     void testGetAllNoAccount() throws Exception {
-        GetAddAccountRequest request = new GetAddAccountRequest();
+        AddAccountRequest request = new AddAccountRequest();
         mockMvc.perform(
                 get("/api/accounts/be3ca79c-44f5-4b90-ae62-aa38800ac4c5")
                         .accept(MediaType.APPLICATION_JSON)

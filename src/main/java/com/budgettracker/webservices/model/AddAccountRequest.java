@@ -1,10 +1,9 @@
 package com.budgettracker.webservices.model;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-public class GetAddAccountRequest {
+public class AddAccountRequest {
     private String userId;
 //    @NotBlank
     @NotBlank
