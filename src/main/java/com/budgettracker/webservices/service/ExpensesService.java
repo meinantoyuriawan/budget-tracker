@@ -77,19 +77,24 @@ public class ExpensesService {
         }
         return query.getResultList();
     }
+
+//    upcoming feature, by date
 //    public List<ExpensesResponse> getAllByDate(String userId, Integer limit, Integer offset) {
+//      String jplQ = "select p from Expenses p where p.user_id = :id and p.account_id = :accId order by p.date desc";
+//      String jplQ = "select p from Expenses p where p.user_id = :id  order by p.date desc";
+//        var query =
+//                em.createNamedQuery(jplQ, ExpensesResponse.class);
+//        query.setParameter("id", userId);
+//        query.setParameter("accId", accId);
+//        query.setFirstResult(offset);
+//        query.setMaxResults(limit);
+//
+//        List<ExpensesResponse> result = query.getResultList();
+//        if (result.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expenses yet");
+//        }
+//        return query.getResultList();
 //    }
-    //    public List<AccountResponse> getAll(String userId) {
-    //        Users users = userRepo.findById(userId)
-    //                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));
-    //
-    //        List<Accounts> accountsList = accountRepo.findByusers(users);
-    //        if (accountsList.isEmpty()) {
-    //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Account yet");
-    //        }
-    //        return accountsList.stream().map(this::toAccResponse).toList();
-    //    }
-    //
 
     //Add Expenses
 

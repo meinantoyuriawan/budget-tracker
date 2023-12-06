@@ -50,7 +50,7 @@ Response Body (Failed) :
 }
 ```
 
-### Grouped by date
+### Grouped by date (#later feature)
 
 Endpoint : GET /api/expenses/{userId}/date/{timeVariable}/
 
