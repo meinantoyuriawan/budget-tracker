@@ -99,6 +99,10 @@ public class ExpensesService {
     //Add Expenses
 
     public ExpensesResponse add(AddExpsensesRequest request) {
+
+        Users users = userRepo.findById(request.getUserId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));
+
         Accounts accounts = accountRepo.findById(request.getAccount())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "account doesn't exist"));
 
