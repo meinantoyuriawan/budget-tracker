@@ -80,7 +80,7 @@ Response Body (Failed) :
 
 ## Update Account
 
-Endpoint : POST /api/accounts/{userId}/update/{accountId}
+Endpoint : PUT /api/accounts/{userId}/update/{accountId}
 
 Request Header :
 
@@ -117,7 +117,7 @@ Response Body (Failed) :
 
 ## Delete Account
 
-Endpoint : POST /api/accounts/{userId}/delete/{accountId}
+Endpoint : DELETE /api/accounts/{userId}/delete/{accountId}
 
 Request Header :
 
@@ -127,7 +127,7 @@ Response Body (Success) :
 
 ```json
 {
-  "data": "ok"
+  "data": "Ok"
 }
 ```
 
