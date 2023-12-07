@@ -32,7 +32,7 @@ public class ExpensesController {
             path = "/api/expenses/{userId}/account/{accountId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<List<ExpensesResponse>> get(
+    public WebResponse<List<ExpensesResponse>> getByAcc(
             @PathVariable("userId") String userId,
             @PathVariable("accountId") String accId,
             @RequestParam Integer limit,
