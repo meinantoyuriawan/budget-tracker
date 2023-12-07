@@ -16,14 +16,17 @@ public class Users {
 //    @UuidGenerator
     private String id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "username")
+    private String username;
 
     @OneToMany(mappedBy = "users")
     private List<Accounts> accounts;
@@ -51,12 +54,12 @@ public class Users {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -73,6 +76,14 @@ public class Users {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<Accounts> getAccounts() {
