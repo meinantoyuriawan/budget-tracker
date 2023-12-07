@@ -1,6 +1,7 @@
 package com.budgettracker.webservices.controller;
 
 import com.budgettracker.webservices.model.*;
+import com.budgettracker.webservices.repository.ExpensesRepo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.budgettracker.webservices.repository.AccountRepo;
@@ -33,12 +34,26 @@ class AccountControllerTest {
     private AccountRepo accountRepo;
 
     @Autowired
+    private ExpensesRepo expensesRepo;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
 //        be3ca79c-44f5-4b90-ae62-aa38800ac4c5
+        expensesRepo.deleteAll();
         accountRepo.deleteAll();
+        userRepo.deleteAll();
+//        push users
+        Users users = new Users();
+        users.setId("be3ca79c-44f5-4b90-ae62-aa38800ac4c5");
+        users.setEmail("meinantoyuriawan@gmail.com");
+        users.setPassword("password");
+        users.setName("Meinanto");
+        users.setUsername("meinantoy");
+
+        userRepo.save(users);
     }
 
     @Test

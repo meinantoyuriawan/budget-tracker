@@ -5,6 +5,8 @@ import com.budgettracker.webservices.repository.AccountRepo;
 import com.budgettracker.webservices.repository.ExpensesRepo;
 import com.budgettracker.webservices.repository.UserRepo;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ExpensesService {
@@ -43,58 +46,26 @@ public class ExpensesService {
         //Filter by time variable
             //params Year/Month/Week -> tbc
         //Filter by accountId
-    private EntityManager em;
+    @PersistenceContext
+    public EntityManager em;
     //Get All Account
     public List<ExpensesResponse> getAll(String userId, Integer limit, Integer offset) {
-        String jplQ = "select p from Expenses p where p.user_id = :id order by p.date desc";
-
-        var query =
-                em.createNamedQuery(jplQ, ExpensesResponse.class);
-        query.setParameter("id", userId);
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
-
-        List<ExpensesResponse> result = query.getResultList();
-        if (result.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expenses yet");
+        List<Expenses> expensesList = expensesRepo.findAllExpensesByUserId(userId, limit, offset);
+        if (expensesList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expenses yet");
         }
-        return query.getResultList();
+        return expensesList.stream().map(this::toExpResponse).toList();
     }
 
     public List<ExpensesResponse> getAllByAcc(String userId, String accId, Integer limit, Integer offset) {
-        String jplQ = "select p from Expenses p where p.user_id = :id and p.account_id = :accId order by p.date desc";
-
-        var query =
-                em.createNamedQuery(jplQ, ExpensesResponse.class);
-        query.setParameter("id", userId);
-        query.setParameter("accId", accId);
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
-
-        List<ExpensesResponse> result = query.getResultList();
-        if (result.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expenses yet");
+        List<Expenses> expensesList = expensesRepo.findAllExpensesByUserIdAndAccId(userId, accId, limit, offset);
+        if (expensesList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expenses yet");
         }
-        return query.getResultList();
+        return expensesList.stream().map(this::toExpResponse).toList();
     }
 
 //    upcoming feature, by date
-//    public List<ExpensesResponse> getAllByDate(String userId, Integer limit, Integer offset) {
-//      String jplQ = "select p from Expenses p where p.user_id = :id and p.account_id = :accId order by p.date desc";
-//      String jplQ = "select p from Expenses p where p.user_id = :id  order by p.date desc";
-//        var query =
-//                em.createNamedQuery(jplQ, ExpensesResponse.class);
-//        query.setParameter("id", userId);
-//        query.setParameter("accId", accId);
-//        query.setFirstResult(offset);
-//        query.setMaxResults(limit);
-//
-//        List<ExpensesResponse> result = query.getResultList();
-//        if (result.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expenses yet");
-//        }
-//        return query.getResultList();
-//    }
 
     //Add Expenses
 
@@ -112,7 +83,7 @@ public class ExpensesService {
         int month = Integer.parseInt(request.getMM());
         int day = Integer.parseInt(request.getDD());
 
-
+        newExp.setId(UUID.randomUUID().toString());
         newExp.setUserId(request.getUserId());
         newExp.setDate(LocalDate.of(year, month, day));
         newExp.setAmount(request.getAmount());
