@@ -46,8 +46,7 @@ public class ExpensesService {
         //Filter by time variable
             //params Year/Month/Week -> tbc
         //Filter by accountId
-    @PersistenceContext
-    public EntityManager em;
+
     //Get All Account
     public List<ExpensesResponse> getAll(String userId, Integer limit, Integer offset) {
         List<Expenses> expensesList = expensesRepo.findAllExpensesByUserId(userId, limit, offset);
