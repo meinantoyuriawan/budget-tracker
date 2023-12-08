@@ -11,6 +11,6 @@ public interface ScheduleRepo extends JpaRepository<Schedule, String> {
 
     List<Schedule> findByuserId(String userId);
 
-
+    Schedule findByexpensesId(String expensesId);
 
 }

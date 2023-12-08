@@ -122,7 +122,7 @@ Response Body (Failed) :
 }
 ```
 
-## Update Account
+## Update Schedule
 
 Endpoint : PUT /api/schedule/{expensesId}/update
 
@@ -163,7 +163,7 @@ Response Body (Failed) :
 }
 ```
 
-## Delete Account
+## Delete Schedule
 
 Endpoint : DELETE /api/schedule/{expensesId}/delete/
 
