@@ -59,7 +59,7 @@ public class ExpensesService {
     public List<ExpensesResponse> getAllByAcc(String userId, String accId, Integer limit, Integer offset) {
         List<Expenses> expensesList = expensesRepo.findAllExpensesByUserIdAndAccId(userId, accId, limit, offset);
         if (expensesList.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expenses yet");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,  "Expenses not found");
         }
         return expensesList.stream().map(this::toExpResponse).toList();
     }
