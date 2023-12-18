@@ -23,9 +23,7 @@ public class Goal {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users users;
 
-    public Goal(){
 
-    }
 //    public Goal(String id, String byTime, String byAccount, Long amount, Users users) {
 //        this.id = id;
 //        this.byTime = byTime;
