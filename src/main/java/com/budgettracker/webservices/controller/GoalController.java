@@ -44,7 +44,7 @@ public class GoalController {
     }
 
     @GetMapping(
-            path = "/api/goal/{goaId}",
+            path = "/api/goal/{goalId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public WebResponse<GoalResponse> getOne(

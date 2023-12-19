@@ -1,10 +1,7 @@
 package com.budgettracker.webservices.controller;
 
 import com.budgettracker.webservices.model.*;
-import com.budgettracker.webservices.repository.AccountRepo;
-import com.budgettracker.webservices.repository.ExpensesRepo;
-import com.budgettracker.webservices.repository.ScheduleRepo;
-import com.budgettracker.webservices.repository.UserRepo;
+import com.budgettracker.webservices.repository.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,12 +36,16 @@ public class ScheduleControllerTest {
     @Autowired
     private ScheduleRepo scheduleRepo;
     @Autowired
+    private GoalRepo goalRepo;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
 //        be3ca79c-44f5-4b90-ae62-aa38800ac4c5
 //        test
+        goalRepo.deleteAll();
         scheduleRepo.deleteAll();
         expensesRepo.deleteAll();
         accountRepo.deleteAll();

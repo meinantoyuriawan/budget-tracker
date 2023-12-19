@@ -18,14 +18,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ExpensesControllerTest {
+public class GoalControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -81,19 +79,39 @@ public class ExpensesControllerTest {
         accounts2.setUsers(users);
 
         accountRepo.save(accounts2);
+
+//        Expenses expenses = new Expenses();
+//        expenses.setId("testExpenses");
+//        expenses.setUserId("be3ca79c-44f5-4b90-ae62-aa38800ac4c5");
+//        expenses.setDate(LocalDate.of(2023, 10, 2));
+//        expenses.setAccounts(accounts);
+//        expenses.setAmount(20000L);
+//        expenses.setExpensesType("Food");
+//        expenses.setDescription("some description");
+//
+//        expensesRepo.save(expenses);
+//
+//        Expenses expenses2 = new Expenses();
+//        expenses2.setId("testExpenses2");
+//        expenses2.setUserId("be3ca79c-44f5-4b90-ae62-aa38800ac4c5");
+//        expenses2.setDate(LocalDate.of(2023, 10, 2));
+//        expenses2.setAccounts(accounts);
+//        expenses2.setAmount(20000L);
+//        expenses2.setExpensesType("Food");
+//        expenses2.setDescription("some description");
+//
+//        expensesRepo.save(expenses2);
     }
 
     @Test
-    void testCreateExpSuccess() throws Exception{
-        AddExpsensesRequest request = new AddExpsensesRequest();
-        request.setDate("07/05/2023");
+    void testCreateGoalSuccess() throws Exception{
+        GoalRequest request = new GoalRequest();
+        request.setTime("Weekly");
         request.setAccount("test");
-        request.setAmount(20000L);
-        request.setType("Urgent");
-        request.setDescription("I got injured");
+        request.setAmount(200000L);
 
         mockMvc.perform(
-                post("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/create")
+                post("/api/goal/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/create")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
@@ -101,33 +119,28 @@ public class ExpensesControllerTest {
                 status().isOk()
         ).andDo(
                 result -> {
-                    WebResponse<ExpensesResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    WebResponse<GoalResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
                     });
                     assertNull(response.getError());
 
-                    assertEquals(request.getDate(), response.getData().getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                    //
+                    assertEquals(request.getTime(), response.getData().getTime());
                     assertEquals(request.getAccount(), response.getData().getAccount());
                     assertEquals(request.getAmount(), response.getData().getAmount());
-                    assertEquals(request.getType(), response.getData().getType());
-                    assertEquals(request.getDescription(), response.getData().getDescription());
-
                 }
         );
     }
 
     @Test
-    void testCreateExpUserNotExist() throws Exception {
+    void testCreateGoalUserNotExist() throws Exception {
         // User doesn't exist
-        AddExpsensesRequest request = new AddExpsensesRequest();
-        request.setDate("07/05/2023");
+        GoalRequest request = new GoalRequest();
+        request.setTime("Weekly");
         request.setAccount("test");
-        request.setAmount(20000L);
-        request.setType("Urgent");
-        request.setDescription("I got injured");
+        request.setAmount(200000L);
+
         // userId = be3ca79c-44f5-4b90-ae62-aa38800ac4c5
         mockMvc.perform(
-                post("/api/expenses/user-test/create")
+                post("/api/goal/user-test/create")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
@@ -135,7 +148,7 @@ public class ExpensesControllerTest {
                 status().isNotFound()
         ).andDo(
                 result -> {
-                    WebResponse<ExpensesResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    WebResponse<GoalResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
                     });
                     assertNotNull(response.getError());
                 }
@@ -143,30 +156,27 @@ public class ExpensesControllerTest {
     }
     // push bad request
 
-    // push data for test GetAll
     void pushData() throws Exception {
         String userId = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
-        Accounts accounts1 = accountRepo.findById("test").orElseThrow();
-        Accounts accounts2 = accountRepo.findById("test1").orElseThrow();
+        Users users = userRepo.findById(userId).orElseThrow();
 
-        for (int i=0; i<6; i++){
-            Expenses newExp = new Expenses();
-            newExp.setId("testExp-" + i);
-            newExp.setUserId(userId);
-            newExp.setDate(LocalDate.of(2023, 5, 6 + i));
-            newExp.setAmount(20000L + (10*i));
-            newExp.setExpensesType("Utilities");
-            newExp.setDescription("Description");
+        for (int i=0; i<6; i++) {
+            Goal newGoal = new Goal();
+            newGoal.setId("testExp-" + i);
+            newGoal.setUsers(users);
+            newGoal.setByTime("Monthly");
+            newGoal.setAmount(500000L);
 
             if (i%2 == 0) {
-                newExp.setAccounts(accounts1);
+                newGoal.setByAccount("test");
             } else {
-                newExp.setAccounts(accounts2);
+                newGoal.setByAccount("test1");
             }
 
-            expensesRepo.save(newExp);
+            goalRepo.save(newGoal);
         }
     }
+
     // test GetAll
     @Test
     void testGetAll() throws Exception {
@@ -174,14 +184,14 @@ public class ExpensesControllerTest {
 
         // get all accounts
         mockMvc.perform(
-                get("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5?limit=10&offset=0")
+                get("/api/goals/be3ca79c-44f5-4b90-ae62-aa38800ac4c5")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpectAll(
                 status().isOk()
         ).andDo(
                 result -> {
-                    WebResponse<List<ExpensesResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    WebResponse<List<GoalResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
                     });
                     assertNull(response.getError());
                     assertEquals(6, response.getData().size());
@@ -194,14 +204,14 @@ public class ExpensesControllerTest {
     void testGetByAcc() throws Exception {
         pushData();
         mockMvc.perform(
-                get("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/account/test?limit=10&offset=0")
+                get("/api/goals/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/account/test1")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpectAll(
                 status().isOk()
         ).andDo(
                 result -> {
-                    WebResponse<List<ExpensesResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    WebResponse<List<GoalResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
                     });
                     assertNull(response.getError());
                     assertEquals(3, response.getData().size());
@@ -213,104 +223,111 @@ public class ExpensesControllerTest {
     void testGetAllAccNotExist() throws Exception {
         pushData();
         mockMvc.perform(
-                get("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/account/randomAcc?limit=10&offset=0")
+                get("/api/goals/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/account/randomAcc")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpectAll(
                 status().isNotFound()
         ).andDo(
                 result -> {
-                    WebResponse<ExpensesResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    WebResponse<GoalResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
                     });
                     assertNotNull(response.getError());
                 }
         );
     }
-    // test Put
+
+    // test Get one
     @Test
-    void testEditExp() throws Exception {
+    void testGetOne() throws Exception {
         pushData();
-
-//        String expId = "testExp-1";
-
-        UpdateExpensesRequest request = new UpdateExpensesRequest();
-        request.setDate("07/05/2020");
-        request.setAccount("test");
-        request.setAmount(80000L);
-        request.setType("Urgent");
-        request.setDescription("New Description");
-
-        MvcResult res =
         mockMvc.perform(
-                put("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/testExp-1")
+                get("/api/goal/testExp-1")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
         ).andExpectAll(
                 status().isOk()
         ).andDo(
                 result -> {
-                    WebResponse<ExpensesResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    WebResponse<GoalResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
                     });
                     assertNull(response.getError());
+                }
+        );
+    }
+
+    @Test
+    void testGetOneGoalNotExist() throws Exception {
+        pushData();
+        mockMvc.perform(
+                get("/api/goal/notExist-1")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpectAll(
+                status().isNotFound()
+        ).andDo(
+                result -> {
+                    WebResponse<GoalResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    });
+                    assertNotNull(response.getError());
+                }
+        );
+    }
+
+    // test Put
+    @Test
+    void testEditGoal() throws Exception {
+        pushData();
+
+//        String expId = "testExp-1";
+
+        GoalRequest request = new GoalRequest();
+        request.setTime("Daily");
+        request.setAccount("test");
+        request.setAmount(20000L);
+
+
+        MvcResult res =
+                mockMvc.perform(
+                        put("/api/goal/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/testExp-1")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                ).andExpectAll(
+                        status().isOk()
+                ).andDo(
+                        result -> {
+                            WebResponse<GoalResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                            });
+                            assertNull(response.getError());
 
 //                    assertEquals(request.getDate(), response.getData());
-                    //
-                    assertEquals(request.getAccount(), response.getData().getAccount());
-                    assertEquals(request.getAmount(), response.getData().getAmount());
-                    assertEquals(request.getType(), response.getData().getType());
-                    assertEquals(request.getDescription(), response.getData().getDescription());
-                }
-        ).andReturn();
+                            //
+                            assertEquals(request.getTime(), response.getData().getTime());
+                            assertEquals(request.getAccount(), response.getData().getAccount());
+                            assertEquals(request.getAmount(), response.getData().getAmount());
+
+                        }
+                ).andReturn();
         // I want to get the date better
         String content = res.getResponse().getContentAsString();
         System.out.println(content);
     }
 
     @Test
-    void testEditExpAccNotExist() throws Exception {
+    void testEditGoalNotExist() throws Exception {
         pushData();
 
 //        String expId = "testExp-1";
 
-        UpdateExpensesRequest request = new UpdateExpensesRequest();
-        request.setDate("07/05/2020");
-        request.setAccount("not exist");
-        request.setAmount(80000L);
-        request.setType("Urgent");
-        request.setDescription("New Description");
-
-        mockMvc.perform(
-                put("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/testExp-1")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-        ).andExpectAll(
-                status().isNotFound()
-        ).andDo(
-                result -> {
-                    WebResponse<ExpensesResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-                    });
-                    assertNotNull(response.getError());
-                }
-        );
-    }
-
-    @Test
-    void testEditExpNotExist() throws Exception {
-        pushData();
-
-//        String expId = "testExp-1";
-
-        UpdateExpensesRequest request = new UpdateExpensesRequest();
-        request.setDate("07/05/2020");
+        GoalRequest request = new GoalRequest();
+        request.setTime("Daily");
         request.setAccount("test");
-        request.setAmount(80000L);
-        request.setType("Urgent");
-        request.setDescription("New Description");
+        request.setAmount(20000L);
+
 
         mockMvc.perform(
-                put("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/NotExistExp")
+                put("/api/goal/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/update/NoGoal-1")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
@@ -325,28 +342,53 @@ public class ExpensesControllerTest {
         );
     }
 
-    // test Delete
+    @Test
+    void testEditGoalUserNotExist() throws Exception {
+        pushData();
+
+//        String expId = "testExp-1";
+
+        GoalRequest request = new GoalRequest();
+        request.setTime("Daily");
+        request.setAccount("test");
+        request.setAmount(20000L);
+
+
+        mockMvc.perform(
+                put("/api/goal/NoUser/update/NoGoal-1")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isNotFound()
+        ).andDo(
+                result -> {
+                    WebResponse<ExpensesResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+                    });
+                    assertNotNull(response.getError());
+                }
+        );
+    }
 
     @Test
-    void testDeleteExp() throws Exception {
+    void testDeleteGoal() throws Exception {
         String userId = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
-        Accounts accounts1 = accountRepo.findById("test").orElseThrow();
+        Users users = userRepo.findById(userId).orElseThrow();
 
 
-        Expenses newExp = new Expenses();
-        newExp.setId("testExp-1");
-        newExp.setUserId(userId);
-        newExp.setDate(LocalDate.of(2023, 5, 6));
-        newExp.setAmount(20000L);
-        newExp.setExpensesType("Utilities");
-        newExp.setDescription("Description");
-
-        newExp.setAccounts(accounts1);
+        Goal newGoal = new Goal();
+        newGoal.setId("testGoal");
+        newGoal.setUsers(users);
+        newGoal.setByTime("Monthly");
+        newGoal.setAmount(500000L);
+        newGoal.setByAccount("test");
 
 
-        expensesRepo.save(newExp);
+        goalRepo.save(newGoal);
+
+
         mockMvc.perform(
-                delete("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/delete/testExp-1")
+                delete("/api/goal/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/delete/testGoal")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpectAll(
@@ -358,7 +400,7 @@ public class ExpensesControllerTest {
                     assertNull(response.getError());
                     assertEquals("Ok", response.getData());
 
-                    assertFalse(expensesRepo.existsById("testExp-1"));
+                    assertFalse(goalRepo.existsById("testGoal"));
                 }
         );
     }
@@ -366,23 +408,20 @@ public class ExpensesControllerTest {
     @Test
     void testDeleteExpNotExist() throws Exception {
         String userId = "be3ca79c-44f5-4b90-ae62-aa38800ac4c5";
-        Accounts accounts1 = accountRepo.findById("test").orElseThrow();
+        Users users = userRepo.findById(userId).orElseThrow();
 
 
-        Expenses newExp = new Expenses();
-        newExp.setId("testExp-1");
-        newExp.setUserId(userId);
-        newExp.setDate(LocalDate.of(2023, 5, 6));
-        newExp.setAmount(20000L);
-        newExp.setExpensesType("Utilities");
-        newExp.setDescription("Description");
-
-        newExp.setAccounts(accounts1);
+        Goal newGoal = new Goal();
+        newGoal.setId("testGoal");
+        newGoal.setUsers(users);
+        newGoal.setByTime("Monthly");
+        newGoal.setAmount(500000L);
+        newGoal.setByAccount("test");
 
 
-        expensesRepo.save(newExp);
+        goalRepo.save(newGoal);
         mockMvc.perform(
-                delete("/api/expenses/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/delete/randomExpenses")
+                delete("/api/goal/be3ca79c-44f5-4b90-ae62-aa38800ac4c5/delete/randomGoal")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpectAll(
@@ -395,4 +434,5 @@ public class ExpensesControllerTest {
                 }
         );
     }
+
 }

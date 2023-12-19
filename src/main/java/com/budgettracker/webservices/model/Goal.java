@@ -13,7 +13,7 @@ public class Goal {
     @Column(name = "by_time")
     private String byTime;
 
-    @Column(name = "by_account")
+    @Column(name = "by_acc_id")
     private String byAccount;
 
     @Column(name = "amount")
