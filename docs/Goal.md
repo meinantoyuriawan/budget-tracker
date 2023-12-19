@@ -15,20 +15,20 @@ Response Body (Success) :
   "data" : [
     {
       "id": "someid",
-      "by_time": "Weekly",
-      "by_acc": "acc1",
+      "time": "Weekly",
+      "acc": "acc1",
       "amount": 350000
     },
     {
       "id": "someid",
-      "by_time": "Monthly",
-      "by_acc": "acc2",
+      "time": "Monthly",
+      "acc": "acc2",
       "amount": 2000000
     },
     {
       "id": "someid",
-      "by_time": "Yearly",
-      "by_acc": "acc3",
+      "time": "Yearly",
+      "acc": "acc3",
       "amount": 30000000
     },
     ...
@@ -59,8 +59,8 @@ Response Body (Success) :
   "data" : [
     {
       "id": "someid",
-      "by_time": "Weekly",
-      "by_acc": "acc1",
+      "time": "Weekly",
+      "acc": "acc1",
       "amount": 350000
     },
     ...
@@ -90,8 +90,8 @@ Response Body (Success) :
 {
   "data" : {
     "id": "someid",
-    "by_time": "Weekly",
-    "by_acc": "acc1",
+    "time": "Weekly",
+    "acc": "acc1",
     "amount": 350000
   }
 }
@@ -117,8 +117,8 @@ Request Body :
 
 ```json
 {
-  "by_time" : "Weekly",
-  "by_acc" : "acc2",
+  "time" : "Weekly",
+  "acc" : "acc2",
   "amount" : 20000
 }
 ```
@@ -129,8 +129,8 @@ Response Body (Success) :
 {
   "data" : {
     "id": "someid",
-    "by_time": "Weekly",
-    "by_acc": "acc2",
+    "time": "Weekly",
+    "acc": "acc2",
     "amount": 20000
   }
 }
@@ -156,8 +156,8 @@ Request Body :
 
 ```json
 {
-  "by_time" : "new Time",
-  "by_acc" : "newAcc",
+  "time" : "new Time",
+  "acc" : "newAcc",
   "amount" : "newAmount"
 }
 ```
@@ -168,8 +168,8 @@ Response Body (Success) :
 {
   "data" : {
     "id": "someid",
-    "by_time": "new Time",
-    "by_acc": "newAcc",
+    "time": "new Time",
+    "acc": "newAcc",
     "amount": "newAmount"
   }
 }
