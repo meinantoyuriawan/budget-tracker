@@ -105,6 +105,35 @@ Response Body (Failed) :
 }
 ```
 
+## Get User Goal Information
+
+Endpoint : GET /api/goal/{goalId}
+
+Request Header :
+
+- X-API-TOKEN :Token (Mandatory) # later feature, use a template for development
+
+Response Body (Success) :
+
+```json
+{
+  "data" : {
+    "daily": "this user has x amount left towards daily goal",
+    "weekly": "this user has x amount left towards weekly goal",
+    "monthly": "this user has x amount left towards monthly goal",
+    "yearly": "this user has x amount left towards yearly goal"
+  }
+}
+```
+
+Response Body (Failed) :
+
+```json
+{
+  "errors" : "Goal not found"
+}
+```
+
 ## Add Goal
 
 Endpoint : POST /api/goal/{userId}/create

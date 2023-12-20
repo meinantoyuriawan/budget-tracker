@@ -64,6 +64,25 @@ public class GoalService {
         return toGoalResponse(goal);
     }
 
+//    public GoalResponse getInfo(String userId){
+//        Users users = userRepo.findById(userId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));
+//
+//        List<Goal> goalList = goalRepo.findByusers(users);
+//        if (goalList.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Goal yet");
+//        }
+//
+//        // get the data for every timestamp
+//        //
+//
+////        Goal goal = goalRepo.findById(goalId)
+////                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Goal doesn't exist"));
+////
+////        return toGoalResponse(goal);
+//    }
+
+
     public GoalResponse add(GoalRequest goalRequest){
         Users users = userRepo.findById(goalRequest.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist"));

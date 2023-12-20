@@ -164,6 +164,16 @@ public class GoalControllerTest {
             Goal newGoal = new Goal();
             newGoal.setId("testExp-" + i);
             newGoal.setUsers(users);
+            int x = i%4;
+            if (x == 0) {
+                newGoal.setByTime("Daily");
+            } else if (x == 1){
+                newGoal.setByTime("Weekly");
+            } else if (x == 2) {
+                newGoal.setByTime("Monthly");
+            } else {
+                newGoal.setByTime("Yearly");
+            }
             newGoal.setByTime("Monthly");
             newGoal.setAmount(500000L);
 

@@ -57,6 +57,21 @@ public class GoalController {
         return result;
     }
 
+//    new method
+//    @GetMapping(
+//            path = "/info/goals/{userId}",
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    public WebResponse<GoalResponse> getInfo(
+//            @PathVariable("userId") String goalId
+//    ) {
+//        GoalResponse goalResponses = goalService.getGoal(goalId);
+//        WebResponse<GoalResponse> result = new WebResponse<>();
+//        result.setData(goalResponses);
+//
+//        return result;
+//    }
+
     @PostMapping(
             path = "/api/goal/{userId}/create",
             produces = MediaType.APPLICATION_JSON_VALUE,
